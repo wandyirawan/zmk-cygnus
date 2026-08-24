@@ -16,20 +16,22 @@
 #define SYM 2
 #define FNC 3
 // -----------------
+
 / {
-	behaviors {
-		// Enables holding the first mod-tap key
-		// by performing a tap-release-hold sequence.
-		// To use it: "&qt KEYCODE1 KEYCODE2"
-		qt: quick_tap {
-			compatible = "zmk,behavior-hold-tap";
-			#binding-cells = <2>;
-			flavor = "hold-preferred";
-			tapping-term-ms = <200>;
-			quick-tap-ms = <200>;
-			bindings = <&kp>, <&kp>;
-		};
-		smt: sticky_mod_tap {
+    behaviors {
+        // Enables holding the first mod-tap key
+        // by performing a tap-release-hold sequence.
+        // To use it: "&qt KEYCODE1 KEYCODE2"
+        qt: quick_tap {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "hold-preferred";
+            tapping-term-ms = <200>;
+            quick-tap-ms = <200>;
+            bindings = <&kp>, <&kp>;
+        };
+
+        smt: sticky_mod_tap {
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
             flavor = "tap-preferred";
@@ -37,68 +39,67 @@
             bindings = <&kp>, <&sk>;
             display-name = "sticky Mod-Tap";
         };
-	};
+    };
 
-	combos {
-		compatible = "zmk,combos";
+    combos {
+        compatible = "zmk,combos";
 
-		// both left thumb keys
-		combo_settings {
-			timeout-ms = <200>;
+        // both left thumb keys
+        combo_settings {
+            timeout-ms = <200>;
             key-positions = <31 32>;
-			bindings = <&none>;
-		};
+            bindings = <&none>;
+        };
 
-		// inner left + outer right thumb
-		combo_num {
-			timeout-ms = <200>;
+        // inner left + middle right thumb
+        combo_num {
+            timeout-ms = <200>;
             key-positions = <32 34>;
-			bindings = <&none>;
-		};
+            bindings = <&none>;
+        };
 
-		        // G + J → comma (,)
+        // G + J -> comma (,)
         combo_comma {
-            timeout-ms    = <200>;
+            timeout-ms = <200>;
             key-positions = <26 27>;   // G=26, J=27
-            bindings      = <&kp DE_COMM>;
+            bindings = <&kp DE_COMM>;
         };
 
-        // J + ß → period (.)
+        // J + SS -> period (.)
         combo_dot {
-            timeout-ms    = <200>;
-            key-positions = <27 28>;   // J=27, ß=28
-            bindings      = <&kp DE_DOT>;
+            timeout-ms = <200>;
+            key-positions = <27 28>;   // J=27, SS=28
+            bindings = <&kp DE_DOT>;
         };
 
-        // ß + K → minus/hyphen (-)
+        // SS + K -> minus/hyphen (-)
         combo_dash {
-            timeout-ms    = <200>;
-            key-positions = <28 29>;   // ß=28, K=29
-            bindings      = <&kp DE_MINS>;
+            timeout-ms = <200>;
+            key-positions = <28 29>;   // SS=28, K=29
+            bindings = <&kp DE_MINS>;
         };
 
-		// T + N → semicolon (;)
+        // T + N -> semicolon (;)
         combo_semicolon {
-            timeout-ms    = <100>;
+            timeout-ms = <100>;
             key-positions = <16 17>;   // T=16, N=17
-            bindings      = <&kp DE_SCLN>;
+            bindings = <&kp DE_SCLN>;
         };
 
-        // N + R → colon (:)
+        // N + R -> colon (:)
         combo_colon {
-            timeout-ms    = <200>;
+            timeout-ms = <200>;
             key-positions = <17 18>;   // N=17, R=18
-            bindings      = <&kp DE_COLN>;
+            bindings = <&kp DE_COLN>;
         };
 
-        // R + H → underscore (_)
+        // R + H -> underscore (_)
         combo_underscore {
-            timeout-ms    = <200>;
+            timeout-ms = <200>;
             key-positions = <18 19>;   // R=18, H=19
-            bindings      = <&kp DE_UNDSC>;
+            bindings = <&kp DE_UNDSC>;
         };
-
-	};
+    };
 
     conditional_layers {
         compatible = "zmk,conditional-layers";
@@ -107,89 +108,98 @@
             then-layer = <FNC>;
         };
     };
-
-
-	keymap {
-		compatible = "zmk,keymap";
-		// Noted Base Layer
-        // ┌───┬───┬───┬───┬───┐       ┌───┬───┬───┬───┬───┐
-        // │ Y │ Z │ U │ A │ Q │       │ P │ B │ M │ L │ F │
-        // ├───┼───┼───┼───┼───┤       ├───┼───┼───┼───┼───┤
-        // │ C │ S │ I │ E │ O │       │ D │ T │ N │ R │ H │
-        // ├───┼───┼───┼───┼───┤       ├───┼───┼───┼───┼───┤
-        // │ V │ X │ Ü │ Ä │ Ö │       │ W │ G │ J │ ß │ K │
-        // └───┴───┴───┴───┴───┘       └───┴───┴───┴───┴───┘
-        //         ┌──────┬──────┐     ┌──────┬──────┐
-        //         │SFT SPC│NAV BSPC│ │SYM ENT│SFT SPC│
-        //         └──────┴──────┘     └──────┴──────┘
-		default_layer {
-			display-name = "Base";
-			bindings = <
-				&kp Y   &kp Z   &kp U   &kp A   &kp Q      &kp P   &kp B   &kp M   &kp L   &kp F
-				&kp C   &kp S   &kp I   &kp E   &kp O      &kp D   &kp T   &kp N   &kp R   &kp H
-				&kp V   &kp X   &kp DE_UE &kp DE_AE &kp DE_OE  &kp W   &kp G   &kp J   &kp DE_SS   &kp K
-                        &none &qt LSHIFT SPACE &lt NAV BSPC       &lt SYM ENTER &qt RSHIFT SPACE &none
-			>;
-		};
-		// Nav'n'Num layer
-        // ┌───┬───┬───┬───┬───┐       ┌───┬───┬───┬───┬───┐
-        // │ 1 │ 2 │ 3 │ 4 │ 5 │       │ 6 │ 7 │ 8 │ 9 │ 0 │
-        // ├───┼───┼───┼───┼───┤       ├───┼───┼───┼───┼───┤
-        // │ALT│WIN│SFT│CTL│ALR│       │LFT│DWN│UP │RGT│ + │
-        // ├───┼───┼───┼───┼───┤       ├───┼───┼───┼───┼───┤
-        // │Esc│   │TAB│DEL│CAP│       │C+B│BSP│ , │ . │ - │
-        // └───┴───┴───┴───┴───┘       └───┴───┴───┴───┴───┘
-        //         ┌─────┬─────┐       ┌─────┬─────┐
-        //         │trans│trans│       │trans│trans│
-        //         └─────┴─────┘       └─────┴─────┘
-		nav_layer {
-			display-name = "NavNum";
-			bindings = <
-				&kp N1 	   &kp N2   &kp N3   &kp N4    &kp N5         &kp N6        &kp N7   &kp N8      &kp N9     &kp N0
-				&smt LALT LALT  &smt LGUI LGUI &smt LSHIFT LSHIFT &smt LCTRL LCTRL &smt RALT RALT     &kp LEFT      &kp DOWN &kp UP      &kp RIGHT  &kp DE_PLUS
-				&kp ESC    &none    &kp TAB    &kp DEL   &kp CAPSLOCK   &kp LC(BSPC)  &kp BSPC &kp DE_COMM &kp DE_DOT &kp DE_MINS
-                                             &none &trans     &trans     	  &trans    &trans &none
-			>;
-		};
-		// Symbols layer
-        // ┌───┬───┬───┬───┬───┐       ┌───┬───┬───┬───┬───┐
-        // │ ! │ " │ § │ $ │ % │       │ & │ / │ = │ ' │ \ │
-        // ├───┼───┼───┼───┼───┤       ├───┼───┼───┼───┼───┤
-        // |ALT│WIN│SFT│CTL│ALR│       │ * │ ( │ { │ [ │ < │
-        // ├───┼───┼───┼───┼───┤       ├───┼───┼───┼───┼───┤
-        // │ ^ │ @ │ € │ | │ # │       │ ~ │ ) │ } │ ] │ > |
-        // └───┴───┴───┴───┴───┘       └───┴───┴───┴───┴───┘
-        //         ┌─────┬─────┐       ┌─────┬─────┐
-        //         │trans│trans│       │trans│trans│
-        //         └─────┴─────┘       └─────┴─────┘
-		sym_layer {
-			display-name = "Symbl";
-			bindings = <
-				&kp DE_EXCL   &kp DE_DQUOT  &kp DE_SECT   &kp DE_DOLL  &kp DE_PERC         &kp DE_AMPR   &kp DE_SLSH   &kp DE_EQL    &kp DE_APOS  &kp DE_BSLS
-				&sk LALT      &sk LGUI      &sk LSHIFT      &sk LCTRL    &sk RALT            &kp DE_ASTRK  &kp DE_LPAR   &kp DE_LCBRC  &kp DE_LBRC  &kp DE_LESS
-				&kp DE_CIRC   &kp DE_AT     &kp DE_EURO   &kp DE_PIPE  &kp DE_HASH         &kp DE_TILDE  &kp DE_RPAR   &kp DE_RCBRC  &kp DE_RBRC  &kp DE_GREAT
-                                    &none &trans   &trans                                  	   &trans          &trans &none
-			>;
-		};
-		// Function layer
-        // ┌───┬───┬───┬───┬───┐       ┌───┬───┬───┬───┬───┐
-        // │F1 │F2 │F3 │F4 │F5 │       │F6 │F7 │F8 │F9 │F10│
-        // ├───┼───┼───┼───┼───┤       ├───┼───┼───┼───┼───┤
-        // │ALT│WIN│SFT│CTL│ALR│       │WSL│WSD│WSU│WSR│   │
-        // ├───┼───┼───┼───┼───┤       ├───┼───┼───┼───┼───┤
-        // │F11│F12│   │   │REP│       │WL │WD │WU │WR │SF10│
-        // └───┴───┴───┴───┴───┘       └───┴───┴───┴───┴───┘
-        //         ┌─────┬─────┐       ┌─────┬─────┐
-        //         │trans│trans│       │trans│trans│
-        //         └─────┴─────┘       └─────┴─────┘
-		fun_layer {
-			display-name = "Funcs";
-			bindings = <
-				&kp F1     &kp F2   &kp F3   &kp F4   &kp F5         &kp F6   &kp F7   &kp F8   &kp F9   &kp F10
-				&sk LALT   &sk LGUI &sk LSHIFT &sk LCTRL &sk RALT    &kp LG(LS(LEFT))   &kp LG(LS(DOWN))   &kp LG(LS(UP))   &kp LG(LS(RIGHT))    &none
-				&kp F11  &kp F12    &none    &none    &key_repeat    &kp LG(LEFT)  &kp LG(DOWN)  &kp LG(UP)    &kp LG(RIGHT) &kp LS(F10)
-                                             &none &trans   &trans          &trans    &trans &none
-			>;
-		};
-	};
+    keymap {
+        compatible = "zmk,keymap";
+        //
+        // Notation: · = &none (unbound) | trn = &trans
+        // Positions follow five_column_transform:
+        // rows 0-2 = 10 keys/half; thumb = 3 keys/half (pos 30-35)
+        // drawn under cols 3-5 (left) / 6-8 (right)
+        //
+        // ┌───┬───┬───┬───┬───┐   ┌───┬───┬───┬───┬───┐
+        // | Y | Z | U | A | Q |   | P | B | M | L | F |
+        // ├───┼───┼───┼───┼───┤   ├───┼───┼───┼───┼───┤
+        // | C | S | I | E | O |   | D | T | N | R | H |
+        // ├───┼───┼───┼───┼───┤   ├───┼───┼───┼───┼───┤
+        // | V | X | Ü | Ä | Ö |   | W | G | J | ß | K |
+        // └───┴───┴───┴───┴───┘   └───┴───┴───┴───┴───┘
+        //
+        //         ┌───┬───┬───┐   ┌───┬───┬───┐
+        //         | · |SFT|NAV|   |SYM|SFT| · |
+        //         ├───┼───┼───┤   ├───┼───┼───┤
+        //         |   |SPC|BSP|   |ENT|SPC|   |
+        //         └───┴───┴───┘   └───┴───┴───┘
+        default_layer {
+            display-name = "Base";
+            bindings = <
+            &kp Y               &kp Z               &kp U               &kp A               &kp Q                   &kp P               &kp B               &kp M               &kp L               &kp F
+            &kp C               &kp S               &kp I               &kp E               &kp O                   &kp D               &kp T               &kp N               &kp R               &kp H
+            &kp V               &kp X               &kp DE_UE           &kp DE_AE           &kp DE_OE               &kp W               &kp G               &kp J               &kp DE_SS           &kp K
+            &none               &qt LSHIFT SPACE    &lt NAV BSPC            &lt SYM ENTER       &qt RSHIFT SPACE    &none
+        >;
+        };
+        //
+        // ┌───┬───┬───┬───┬───┐   ┌───┬───┬───┬───┬───┐
+        // | 1 | 2 | 3 | 4 | 5 |   | 6 | 7 | 8 | 9 | 0 |
+        // ├───┼───┼───┼───┼───┤   ├───┼───┼───┼───┼───┤
+        // |ALT|WIN|SFT|CTL|ALR|   |LFT|DWN|UP |RGT| + |
+        // ├───┼───┼───┼───┼───┤   ├───┼───┼───┼───┼───┤
+        // |ESC| · |TAB|DEL|CAP|   |C+B|BSP| , | . | - |
+        // └───┴───┴───┴───┴───┘   └───┴───┴───┴───┴───┘
+        //
+        //         ┌───┬───┬───┐   ┌───┬───┬───┐
+        //         | · |trn|trn|   |trn|trn| · |
+        //         └───┴───┴───┘   └───┴───┴───┘
+        nav_layer {
+            display-name = "NavNum";
+            bindings = <
+            &kp N1              &kp N2              &kp N3              &kp N4              &kp N5                  &kp N6              &kp N7              &kp N8              &kp N9              &kp N0
+            &smt LALT LALT      &smt LGUI LGUI      &smt LSHIFT LSHIFT  &smt LCTRL LCTRL    &smt RALT RALT          &kp LEFT            &kp DOWN            &kp UP              &kp RIGHT           &kp DE_PLUS
+            &kp ESC             &none               &kp TAB             &kp DEL             &kp CAPSLOCK            &kp LC(BSPC)        &kp BSPC            &kp DE_COMM         &kp DE_DOT          &kp DE_MINS
+            &none               &trans              &trans                  &trans              &trans              &none
+        >;
+        };
+        //
+        // ┌───┬───┬───┬───┬───┐   ┌───┬───┬───┬───┬───┐
+        // | ! | " | § | $ | % |   | & | / | = | ' | \ |
+        // ├───┼───┼───┼───┼───┤   ├───┼───┼───┼───┼───┤
+        // |ALT|WIN|SFT|CTL|ALR|   | * | ( | { | [ | < |
+        // ├───┼───┼───┼───┼───┤   ├───┼───┼───┼───┼───┤
+        // | ^ | @ | € | | | # |   | ~ | ) | } | ] | > |
+        // └───┴───┴───┴───┴───┘   └───┴───┴───┴───┴───┘
+        //
+        //         ┌───┬───┬───┐   ┌───┬───┬───┐
+        //         | · |trn|trn|   |trn|trn| · |
+        //         └───┴───┴───┘   └───┴───┴───┘
+        sym_layer {
+            display-name = "Symbl";
+            bindings = <
+            &kp DE_EXCL         &kp DE_DQUOT        &kp DE_SECT         &kp DE_DOLL         &kp DE_PERC             &kp DE_AMPR         &kp DE_SLSH         &kp DE_EQL          &kp DE_APOS         &kp DE_BSLS
+            &sk LALT            &sk LGUI            &sk LSHIFT          &sk LCTRL           &sk RALT                &kp DE_ASTRK        &kp DE_LPAR         &kp DE_LCBRC        &kp DE_LBRC         &kp DE_LESS
+            &kp DE_CIRC         &kp DE_AT           &kp DE_EURO         &kp DE_PIPE         &kp DE_HASH             &kp DE_TILDE        &kp DE_RPAR         &kp DE_RCBRC        &kp DE_RBRC         &kp DE_GREAT
+            &none               &trans              &trans                  &trans              &trans              &none
+        >;
+        };
+        //
+        // ┌───┬───┬───┬───┬───┐   ┌───┬───┬───┬───┬───┐
+        // |F1 |F2 |F3 |F4 |F5 |   |F6 |F7 |F8 |F9 |F10|
+        // ├───┼───┼───┼───┼───┤   ├───┼───┼───┼───┼───┤
+        // |ALT|WIN|SFT|CTL|ALR|   |WSL|WSD|WSU|WSR| · |
+        // ├───┼───┼───┼───┼───┤   ├───┼───┼───┼───┼───┤
+        // |F11|F12| · | · |REP|   |WL |WD |WU |WR |S10|
+        // └───┴───┴───┴───┴───┘   └───┴───┴───┴───┴───┘
+        //
+        //         ┌───┬───┬───┐   ┌───┬───┬───┐
+        //         | · |trn|trn|   |trn|trn| · |
+        //         └───┴───┴───┘   └───┴───┴───┘
+        fun_layer {
+            display-name = "Funcs";
+            bindings = <
+            &kp F1              &kp F2              &kp F3              &kp F4              &kp F5                  &kp F6              &kp F7              &kp F8              &kp F9              &kp F10
+            &sk LALT            &sk LGUI            &sk LSHIFT          &sk LCTRL           &sk RALT                &kp LG(LS(LEFT))    &kp LG(LS(DOWN))    &kp LG(LS(UP))      &kp LG(LS(RIGHT))   &none
+            &kp F11             &kp F12             &none               &none               &key_repeat             &kp LG(LEFT)        &kp LG(DOWN)        &kp LG(UP)          &kp LG(RIGHT)       &kp LS(F10)
+            &none               &trans              &trans                  &trans              &trans              &none
+        >;
+        };
+    };
 };
