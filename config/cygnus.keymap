@@ -58,45 +58,21 @@
             bindings = <&none>;
         };
 
-        // G + J -> comma (,)
-        combo_comma {
-            timeout-ms = <200>;
-            key-positions = <26 27>;   // G=26, J=27
-            bindings = <&kp DE_COMM>;
-        };
+        // NOTE: with Gallium colstag, comma (,), period (.), apostrophe (')
+        // and semicolon (;) are direct Base keys, so the old letter-pair
+        // combos that produced them were removed.
 
-        // J + SS -> period (.)
-        combo_dot {
-            timeout-ms = <200>;
-            key-positions = <27 28>;   // J=27, SS=28
-            bindings = <&kp DE_DOT>;
-        };
-
-        // SS + K -> minus/hyphen (-)
-        combo_dash {
-            timeout-ms = <200>;
-            key-positions = <28 29>;   // SS=28, K=29
-            bindings = <&kp DE_MINS>;
-        };
-
-        // T + N -> semicolon (;)
-        combo_semicolon {
-            timeout-ms = <100>;
-            key-positions = <16 17>;   // T=16, N=17
-            bindings = <&kp DE_SCLN>;
-        };
-
-        // N + R -> colon (:)
+        // R + T -> colon (:)
         combo_colon {
             timeout-ms = <200>;
-            key-positions = <17 18>;   // N=17, R=18
+            key-positions = <11 12>;   // R=11, T=12
             bindings = <&kp DE_COLN>;
         };
 
-        // R + H -> underscore (_)
+        // P + H -> underscore (_)
         combo_underscore {
             timeout-ms = <200>;
-            key-positions = <18 19>;   // R=18, H=19
+            key-positions = <15 16>;   // P=15, H=16
             bindings = <&kp DE_UNDSC>;
         };
     };
@@ -108,20 +84,22 @@
             then-layer = <FNC>;
         };
     };
+
     keymap {
         compatible = "zmk,keymap";
         //
+        // Layout: Gallium (Columnar Staggered variant)
         // Notation: · = &none (unbound) | trn = &trans
         // Positions follow five_column_transform:
         // rows 0-2 = 10 keys/half; thumb = 3 keys/half (pos 30-35)
         // drawn under cols 3-5 (left) / 6-8 (right)
         //
         // ┌───┬───┬───┬───┬───┐   ┌───┬───┬───┬───┬───┐
-        // | Y | Z | U | A | Q |   | P | B | M | L | F |
+        // | B | L | D | C | V |   | J | Y | O | U | , |
         // ├───┼───┼───┼───┼───┤   ├───┼───┼───┼───┼───┤
-        // | C | S | I | E | O |   | D | T | N | R | H |
+        // | N | R | T | S | G |   | P | H | A | E | I |
         // ├───┼───┼───┼───┼───┤   ├───┼───┼───┼───┼───┤
-        // | V | X | Ü | Ä | Ö |   | W | G | J | ß | K |
+        // | X | Q | M | W | Z |   | K | F |'; | ; | . |
         // └───┴───┴───┴───┴───┘   └───┴───┴───┴───┴───┘
         //
         //         ┌───┬───┬───┐   ┌───┬───┬───┐
@@ -132,9 +110,9 @@
         default_layer {
             display-name = "Base";
             bindings = <
-            &kp Y               &kp Z               &kp U               &kp A               &kp Q                   &kp P               &kp B               &kp M               &kp L               &kp F
-            &kp C               &kp S               &kp I               &kp E               &kp O                   &kp D               &kp T               &kp N               &kp R               &kp H
-            &kp V               &kp X               &kp DE_UE           &kp DE_AE           &kp DE_OE               &kp W               &kp G               &kp J               &kp DE_SS           &kp K
+            &kp B               &kp L               &kp D               &kp C               &kp V                   &kp J               &kp Y               &kp O               &kp U               &kp DE_COMM
+            &kp N               &kp R               &kp T               &kp S               &kp G                   &kp P               &kp H               &kp A               &kp E               &kp I
+            &kp X               &kp Q               &kp M               &kp W               &kp Z                   &kp K               &kp F               &kp DE_APOS         &kp DE_SCLN         &kp DE_DOT
             &none               &qt LSHIFT SPACE    &lt NAV BSPC            &lt SYM ENTER       &qt RSHIFT SPACE    &none
         >;
         };
