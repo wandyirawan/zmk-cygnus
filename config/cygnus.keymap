@@ -23,10 +23,13 @@
     combos {
         compatible = "zmk,combos";
 
-        // both left thumb keys
-        // inner left + middle right thumb
         // R + T -> colon (:)
-        // P + H -> underscore (_)
+        combo_colon {
+            timeout-ms = <200>;
+            key-positions = <11 12>;   // R=11, T=12 (Gallium colstag)
+            bindings = <&kp DE_COLN>;
+        };
+
         // --- sys layer combos (adapted to 3x5+3 geometry) ---
 
         system_reset {
