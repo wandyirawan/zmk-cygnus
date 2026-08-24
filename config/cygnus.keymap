@@ -5,17 +5,18 @@
  */
 
 #include <behaviors.dtsi>
-#include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/bt.h>
-#include <dt-bindings/zmk/outputs.h>
+#include <dt-bindings/zmk/keys.h>
 #include "keymap_german.h"
 
 // Layer definitions
+
 #define BASE 0
 #define NAV 1
 #define SYM 2
 #define FNC 3
 #define SYS 4
+
 // -----------------
 
 / {
@@ -23,34 +24,11 @@
         compatible = "zmk,combos";
 
         // both left thumb keys
-        combo_settings {
-            timeout-ms = <200>;
-            key-positions = <31 32>;
-            bindings = <&none>;
-        };
-
         // inner left + middle right thumb
-        combo_num {
-            timeout-ms = <200>;
-            key-positions = <32 34>;
-            bindings = <&none>;
-        };
-
         // R + T -> colon (:)
-        combo_colon {
-            timeout-ms = <200>;
-            key-positions = <11 12>;   // R=11, T=12 (Gallium colstag)
-            bindings = <&kp DE_COLN>;
-        };
-
         // P + H -> underscore (_)
-        combo_underscore {
-            timeout-ms = <200>;
-            key-positions = <15 16>;   // P=15, H=16
-            bindings = <&kp DE_UNDSC>;
-        };
-
         // --- sys layer combos (adapted to 3x5+3 geometry) ---
+
         system_reset {
             timeout-ms = <200>;
             key-positions = <0 1 2>;          // B+L+D chord
@@ -65,21 +43,38 @@
 
         system_layer_combo {
             timeout-ms = <200>;
-            key-positions = <31 32>;          // left inner+middle thumb
-            bindings = <&mo SYS>;
+            key-positions = <31 30>;          // left inner+middle thumb
+            bindings = <&mo 3>;
+        };
+
+        space_cmb {
+            bindings = <&kp SPACE>;
+            key-positions = <23 24>;
+        };
+
+        r_alt_cmb {
+            bindings = <&kp RALT>;
+            key-positions = <28 29>;
+        };
+
+        l_ctrl_cmb {
+            bindings = <&kp LCTRL>;
+            key-positions = <20 21>;
         };
     };
 
     conditional_layers {
         compatible = "zmk,conditional-layers";
+
         num_sym_to_fnc {
-            if-layers = <NAV SYM>;
-            then-layer = <FNC>;
+            if-layers = <1 2>;
+            then-layer = <3>;
         };
     };
 
     keymap {
         compatible = "zmk,keymap";
+
         //
         // Layout: Gallium (Columnar Staggered) — base from GalileoBlues/Gallium
         // Num/Sym layers copied from cygnus-zmk-layout; Thumb from its gallium_layer
@@ -100,15 +95,17 @@
         //         ├───┼───┼───┤   ├───┼───┼───┤
         //         |ESC|TAB|SPC|   |ENT|DEL|BSP|
         //         └───┴───┴───┘   └───┴───┴───┘
+
         gallium_layer {
             display-name = "Gallium";
             bindings = <
-            &kp B                 &kp L                 &kp D                 &kp C                 &kp V                     &kp J                 &kp Y                 &kp O                 &kp U                 &kp DE_COMM
-            &kp N                 &kp R                 &kp T                 &kp S                 &kp G                     &kp P                 &kp H                 &kp A                 &kp E                 &kp I
-            &kp X                 &kp Q                 &kp M                 &kp W                 &kp Z                     &kp K                 &kp F                 &kp DE_APOS           &kp DE_SCLN           &kp DE_DOT
-            &mt LALT ESC          &lt SYM TAB           &mt LGUI SPACE            &mt LCTRL ENTER       &lt NAV DEL           &mt LSHIFT BACKSPACE
-        >;
+&kp B  &kp L  &kp D  &kp C         &kp V      &kp J           &kp Y            &kp O        &kp U                 &kp DE_COMM
+&kp N  &kp R  &kp T  &kp S         &kp G      &kp P           &kp H            &kp A        &kp E                 &kp I
+&kp X  &kp Q  &kp M  &kp W         &kp Z      &kp K           &kp F            &kp DE_APOS  &kp DE_SCLN           &kp DE_DOT
+                     &mt LALT ESC  &lt 2 TAB  &mt LGUI SPACE  &mt LCTRL ENTER  &lt 1 DEL    &mt LSHIFT BACKSPACE
+            >;
         };
+
         //
         // ┌───┬───┬───┬───┬───┐   ┌───┬───┬───┬───┬───┐
         // |F1 |F2 |F3 |F4 |F5 |   | / | 1 | 2 | 3 | + |
@@ -121,15 +118,17 @@
         //         ┌───┬───┬───┐   ┌───┬───┬───┐
         //         |trn|FNC|trn|   |trn| 0 |trn|
         //         └───┴───┴───┘   └───┴───┴───┘
+
         nav_layer {
             display-name = "NavNum";
             bindings = <
-            &kp F1                &kp F2                &kp F3                &kp F4                &kp F5                    &kp KP_DIVIDE         &kp N1                &kp N2                &kp N3                &kp KP_PLUS
-            &kp F7                &kp F8                &kp F9                &kp F10               &kp F11                   &kp KP_MULTIPLY       &kp N4                &kp N5                &kp N6                &kp KP_MINUS
-            &kp PSCRN             &kp CAPS              &kp HOME              &kp END               &kp PG_UP                 &kp F12               &kp N7                &kp N8                &kp N9                &kp DOT
-            &trans                &mo FNC               &trans                    &trans                &kp N0                &trans
-        >;
+&kp F1     &kp F2    &kp F3    &kp F4   &kp F5     &kp KP_DIVIDE    &kp N1  &kp N2  &kp N3  &kp KP_PLUS
+&kp F7     &kp F8    &kp F9    &kp F10  &kp F11    &kp KP_MULTIPLY  &kp N4  &kp N5  &kp N6  &kp KP_MINUS
+&kp PSCRN  &kp CAPS  &kp HOME  &kp END  &kp PG_UP  &kp F12          &kp N7  &kp N8  &kp N9  &kp DOT
+                               &trans   &mo 3      &trans           &trans  &kp N0  &trans
+            >;
         };
+
         //
         // ┌───┬───┬───┬───┬───┐   ┌───┬───┬───┬───┬───┐
         // | ` | ~ | [ | ] | % |   | ^ | & | * | ! | ? |
@@ -142,15 +141,17 @@
         //         ┌───┬───┬───┐   ┌───┬───┬───┐
         //         |trn|trn|trn|   |trn|FNC|trn|
         //         └───┴───┴───┘   └───┴───┴───┘
+
         sym_layer {
             display-name = "Symbl";
             bindings = <
-            &kp GRAVE             &kp TILDE             &kp LBRC              &kp RBRC              &kp PERCENT               &kp CARET             &kp AMPS              &kp ASTERISK          &kp EXCLAMATION       &kp QUESTION
-            &kp BSLH              &kp LBKT              &kp LPAR              &kp RPAR              &kp RBKT                  &kp GT                &kp EQUAL             &kp COLON             &kp MINUS             &kp FSLH
-            &kp PIPE              &kp HASH              &kp LT                &kp DQT               &kp AT_SIGN               &kp UNDER             &kp PLUS              &kp SQT               &kp SEMI              &kp DOLLAR
-            &trans                &trans                &trans                    &trans                &mo FNC               &trans
-        >;
+&kp GRAVE  &kp TILDE  &kp LBRC  &kp RBRC  &kp PERCENT  &kp CARET  &kp AMPS   &kp ASTERISK  &kp EXCLAMATION  &kp QUESTION
+&kp BSLH   &kp LBKT   &kp LPAR  &kp RPAR  &kp RBKT     &kp GT     &kp EQUAL  &kp COLON     &kp MINUS        &kp FSLH
+&kp PIPE   &kp HASH   &kp LT    &kp DQT   &kp AT_SIGN  &kp UNDER  &kp PLUS   &kp SQT       &kp SEMI         &kp DOLLAR
+                                &trans    &trans       &trans     &trans     &mo 3         &trans
+            >;
         };
+
         //
         // ┌───┬───┬───┬───┬───┐   ┌───┬───┬───┬───┬───┐
         // |F1 |F2 |F3 |F4 |F5 |   |F6 |F7 |F8 |F9 |F10|
@@ -163,15 +164,6 @@
         //         ┌───┬───┬───┐   ┌───┬───┬───┐
         //         | · |trn|trn|   |trn|trn| · |
         //         └───┴───┴───┘   └───┴───┴───┘
-        fun_layer {
-            display-name = "Funcs";
-            bindings = <
-            &kp F1                &kp F2                &kp F3                &kp F4                &kp F5                    &kp F6                &kp F7                &kp F8                &kp F9                &kp F10
-            &sk LALT              &sk LGUI              &sk LSHIFT            &sk LCTRL             &sk RALT                  &kp LG(LS(LEFT))      &kp LG(LS(DOWN))      &kp LG(LS(UP))        &kp LG(LS(RIGHT))     &none
-            &kp F11               &kp F12               &none                 &none                 &key_repeat               &kp LG(LEFT)          &kp LG(DOWN)          &kp LG(UP)            &kp LG(RIGHT)         &kp LS(F10)
-            &none                 &trans                &trans                    &trans                &trans                &none
-        >;
-        };
         //
         // ┌───┬───┬───┬───┬───┐   ┌───┬───┬───┬───┬───┐
         // |PRV|NXT| . | . | . |   | . |UP | . | . | . |
@@ -181,14 +173,15 @@
         // |BOO|RST|CLR|CLA| . |   | . | . | . | . | . |
         // └───┴───┴───┴───┴───┘   └───┴───┴───┴───┴───┘
         //   (reach via left inner+middle thumb chord: pos 31+32)
+
         sys_layer {
             display-name = "Sys";
             bindings = <
-            &bt BT_PRV           &bt BT_NXT           &trans              &trans              &trans                  &trans              &kp UP              &trans              &trans              &trans
-            &bt BT_SEL 0         &bt BT_SEL 1         &bt BT_SEL 2         &bt BT_SEL 3         &bt BT_SEL 4             &kp LEFT            &kp DOWN            &kp RIGHT           &trans              &trans
-            &bootloader          &sys_reset           &bt BT_CLR           &bt BT_CLR_ALL       &trans                  &trans              &trans              &trans              &trans              &trans
-            &trans               &trans               &trans                   &trans              &trans               &trans
-        >;
+&bt BT_PRV    &bt BT_NXT    &trans        &trans          &trans        &trans  &trans    &kp UP_ARROW    &trans           &trans
+&bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3    &bt BT_SEL 4  &trans  &kp LEFT  &kp DOWN_ARROW  &kp RIGHT_ARROW  &trans
+&bootloader   &sys_reset    &bt BT_CLR    &bt BT_CLR_ALL  &trans        &trans  &trans    &trans          &trans           &trans
+                                          &trans          &trans        &trans  &trans    &trans          &trans
+            >;
         };
     };
 };
