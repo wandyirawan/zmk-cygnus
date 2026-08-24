@@ -24,6 +24,7 @@
         compatible = "zmk,combos";
 
         // R + T -> colon (:)
+
         combo_colon {
             timeout-ms = <200>;
             key-positions = <11 12>;   // R=11, T=12 (Gallium colstag)
@@ -102,10 +103,10 @@
         gallium_layer {
             display-name = "Gallium";
             bindings = <
-&kp B  &kp L  &kp D  &kp C         &kp V      &kp J           &kp Y            &kp O        &kp U                 &kp DE_COMM
-&kp N  &kp R  &kp T  &kp S         &kp G      &kp P           &kp H            &kp A        &kp E                 &kp I
-&kp X  &kp Q  &kp M  &kp W         &kp Z      &kp K           &kp F            &kp DE_APOS  &kp DE_SCLN           &kp DE_DOT
-                     &mt LALT ESC  &lt 2 TAB  &mt LGUI SPACE  &mt LCTRL ENTER  &lt 1 DEL    &mt LSHIFT BACKSPACE
+&kp B  &kp L  &kp D  &kp C         &kp V      &kp J           &kp Y            &kp O      &kp U                 &kp COMMA
+&kp N  &kp R  &kp T  &kp S         &kp G      &kp P           &kp H            &kp A      &kp E                 &kp I
+&kp X  &kp Q  &kp M  &kp W         &kp Z      &kp K           &kp F            &kp SQT    &kp SEMICOLON         &kp PERIOD
+                     &mt LALT ESC  &lt 2 TAB  &mt LGUI SPACE  &mt LCTRL ENTER  &lt 1 DEL  &mt LSHIFT BACKSPACE
             >;
         };
 
