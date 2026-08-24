@@ -15,6 +15,7 @@
 #define NAV 1
 #define SYM 2
 #define FNC 3
+#define SYS 4
 // -----------------
 
 / {
@@ -46,7 +47,26 @@
         combo_underscore {
             timeout-ms = <200>;
             key-positions = <15 16>;   // P=15, H=16
-            bindings = <&kp DE_UNDSC>;
+            bindings = <&kp DE_UNDSC>
+        };
+
+        // --- sys layer combos (adapted to 3x5+3 geometry) ---
+        system_reset {
+            timeout-ms = <200>;
+            key-positions = <0 1 2>;          // B+L+D chord
+            bindings = <&sys_reset>;
+        };
+
+        bootloader_combo {
+            timeout-ms = <200>;
+            key-positions = <15 16 17>;       // J+Y+O chord
+            bindings = <&bootloader>;
+        };
+
+        system_layer_combo {
+            timeout-ms = <200>;
+            key-positions = <31 32>;          // left inner+middle thumb
+            bindings = <&mo SYS>;
         };
     };
 
@@ -150,6 +170,24 @@
             &sk LALT              &sk LGUI              &sk LSHIFT            &sk LCTRL             &sk RALT                  &kp LG(LS(LEFT))      &kp LG(LS(DOWN))      &kp LG(LS(UP))        &kp LG(LS(RIGHT))     &none
             &kp F11               &kp F12               &none                 &none                 &key_repeat               &kp LG(LEFT)          &kp LG(DOWN)          &kp LG(UP)            &kp LG(RIGHT)         &kp LS(F10)
             &none                 &trans                &trans                    &trans                &trans                &none
+        >;
+        };
+        //
+        // ┌───┬───┬───┬───┬───┐   ┌───┬───┬───┬───┬───┐
+        // |PRV|NXT| . | . | . |   | . |UP | . | . | . |
+        // ├───┼───┼───┼───┼───┤   ├───┼───┼───┼───┼───┤
+        // |S0 |S1 |S2 |S3 |S4 |   |LF |DN |RG | . | . |
+        // ├───┼───┼───┼───┼───┤   ├───┼───┼───┼───┼───┤
+        // |BOO|RST|CLR|CLA| . |   | . | . | . | . | . |
+        // └───┴───┴───┴───┴───┘   └───┴───┴───┴───┴───┘
+        //   (reach via left inner+middle thumb chord: pos 31+32)
+        sys_layer {
+            display-name = "Sys";
+            bindings = <
+            &bt BT_PRV           &bt BT_NXT           &trans              &trans              &trans                  &trans              &kp UP              &trans              &trans              &trans
+            &bt BT_SEL 0         &bt BT_SEL 1         &bt BT_SEL 2         &bt BT_SEL 3         &bt BT_SEL 4             &kp LEFT            &kp DOWN            &kp RIGHT           &trans              &trans
+            &bootloader          &sys_reset           &bt BT_CLR           &bt BT_CLR_ALL       &trans                  &trans              &trans              &trans              &trans              &trans
+            &trans               &trans               &trans                   &trans              &trans               &trans
         >;
         };
     };
