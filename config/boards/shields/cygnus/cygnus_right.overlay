@@ -6,25 +6,23 @@
 
 #include "cygnus.dtsi"
 
-// Right half PCB is a physical MIRROR of the left: its matrix column 0 is the
-// OUTER edge (logical col 11), not the inner edge (logical col 6). Without this
-// reversal the right half reports keys swapped (H<->I, Y<->comma, etc).
+// Right half PCB is a physical MIRROR of the left, read from outer edge inward.
+// The RIGHT half occupies global (logical) columns 6..10 of the 12-col matrix.
+// Physical PCB column 0 = OUTER edge = global col 10 (COMMA in gallium).
+// Physical PCB column 4 = INNER edge = global col 6  (J in gallium).
 //
-// We override the shared 5-col transform with an explicit map whose matrix
-// columns are reversed (physical 0..4 -> global 11..7). No col-offset here:
-// col-offset is ADDED to each RC() in ZMK, so setting it would corrupt the
-// explicit logical columns above.
-//
-// Default transform (used only if a keymap chooses it) still gets the +6
-// offset so the right half lands on global columns 6..10.
+// Per the ZMK docs, col-offset is ADDED to each RC() in the map, so we do NOT
+// set col-offset here — the explicit RC() values below already encode the
+// correct global columns. (default_transform still gets +6 for keymaps that
+// choose it.)
 
 &five_column_transform {
     columns = <5>;
     rows = <4>;
     map = <
-        RC(0,11) RC(0,10) RC(0,9) RC(0,8) RC(0,7)
-        RC(1,11) RC(1,10) RC(1,9) RC(1,8) RC(1,7)
-        RC(2,11) RC(2,10) RC(2,9) RC(2,8) RC(2,7)
+        RC(0,10) RC(0,9) RC(0,8) RC(0,7) RC(0,6)
+        RC(1,10) RC(1,9) RC(1,8) RC(1,7) RC(1,6)
+        RC(2,10) RC(2,9) RC(2,8) RC(2,7) RC(2,6)
                  RC(3,8) RC(3,7) RC(3,6)
     >;
 };
