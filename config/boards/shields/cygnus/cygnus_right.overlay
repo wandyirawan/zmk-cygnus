@@ -6,18 +6,36 @@
 
 #include "cygnus.dtsi"
 
-// Cygnus PCBs are SYMMETRIC (not mirrored): right half uses same GPIO pin
-// order as left, just shifted to cols 6..10 of the shared matrix.
-// Left half = cols 0..9 via five_column_transform (skipping col 0).
-// Right half = cols 6..10 via identical five_column_transform, no reversal.
+// Right half = mirror of left, implemented at the GPIO level exactly like the
+// upstream corne_right shield (PROVEN working).
+//
+// We do NOT rewrite the shared five_column_transform map (writing RC(0,6..10)
+// references physical cols 6-10 that DON'T exist in the 6-column kscan -> ghost
+// output and broken thumb cluster). Instead:
+//   1. Reverse this half's kscan col-gpios (reads columns outer-edge-inward).
+//   2. col-offset = <6> shifts the shared map into the right half's logical
+//      cols 6-10. col-offset is ADDED to the physical col by ZMK before lookup.
+//
+// Cygnus wiring is symmetric (outer column = pin20, inner = pin14 on BOTH
+// halves). With the reversed gpio the shared map maps: pin14(inner)->col5(J),
+// pin20(outer)->col9(COMMA) on the right alpha rows. Verified by running the
+// ZMK matrix_transform.c algorithm against the dtsi map + wiring table.
 
 &five_column_transform {
-    columns = <5>;
-    rows = <4>;
-    map = <
-        RC(0,6) RC(0,7) RC(0,8) RC(0,9) RC(0,10)
-        RC(1,6) RC(1,7) RC(1,8) RC(1,9) RC(1,10)
-        RC(2,6) RC(2,7) RC(2,8) RC(2,9) RC(2,10)
-                 RC(3,6) RC(3,7) RC(3,8)
-    >;
+    col-offset = <6>;
+};
+
+&default_transform {
+    col-offset = <6>;
+};
+
+&kscan0 {
+    col-gpios
+        = <&pro_micro 14 GPIO_ACTIVE_HIGH>
+        , <&pro_micro 15 GPIO_ACTIVE_HIGH>
+        , <&pro_micro 18 GPIO_ACTIVE_HIGH>
+        , <&pro_micro 19 GPIO_ACTIVE_HIGH>
+        , <&pro_micro 20 GPIO_ACTIVE_HIGH>
+        , <&pro_micro 21 GPIO_ACTIVE_HIGH>
+        ;
 };
