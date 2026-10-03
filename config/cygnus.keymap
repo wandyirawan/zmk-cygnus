@@ -168,7 +168,7 @@
 &kp B  &kp L  &kp D  &kp C  &kp V  &kp J  &kp Y  &kp O  &kp U  &kp COMMA
 &kp N  &kp R  &kp T  &kp S  &kp G  &kp P  &kp H  &kp A  &kp E  &kp I
 &kp X  &kp Q  &kp M  &kp W  &kp Z  &kp K  &kp F  &kp SQT  &kp SEMICOLON  &kp PERIOD
-                     &mt LALT ESC  &lt 2 TAB  &mt LGUI SPACE  &mt LCTRL ENTER  &lt 1 BACKSPACE  &mt LSHIFT LS(DELETE)
+                     &mt LALT ESC  &lt 2 TAB  &mt LGUI SPACE  &mt LCTRL ENTER  &lt 1 BACKSPACE  &mt LSHIFT DELETE
             >;
         };
 
